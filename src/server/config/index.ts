@@ -13,4 +13,8 @@ export default {
 		password: process.env.DB_PASS,
 		database: process.env.DB_SCHEMA,
 	},
+	jwt: {
+		secret: process.env.JWT_SECRET,
+		expires: process.env.JWT_EXPIRES,
+	},
 };

@@ -2,8 +2,8 @@ import mysql from "mysql";
 import config from "../config";
 const pool = mysql.createPool(config.db);
 
-export const Query = (sql: string, values?: any) => {
-	return new Promise((res, rej) => {
+export const Query = <T = mysql.OkPacket>(sql: string, values?: any) => {
+	return new Promise<T>((res, rej) => {
 		const formatted = mysql.format(sql, values);
 
 		pool.query(formatted, (err, result) => {
@@ -15,6 +15,3 @@ export const Query = (sql: string, values?: any) => {
 	});
 };
 
-Query("SELECT 1+2 AS sum;")
-	.then((res) => console.log(res))
-	.catch((err) => console.log(err));

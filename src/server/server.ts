@@ -1,12 +1,13 @@
 import express from "express";
 import morgan from "morgan";
+import path from "path";
 import config from "./config";
 import routes from "./routes";
 import { configurePassport } from "./middlewares/passport";
 import {
 	notFoundHandler,
 	globalErrorHandler,
-} from "./middlewares/error-handlers";
+} from "./middlewares/error-handlers.mw";
 
 const app = express();
 
@@ -25,6 +26,20 @@ app.use(express.json());
 app.use(morgan("dev"));
 //Tells the app to use the routes we want it to
 app.use(routes);
+
+//Throws the front end routing back to the frontend so our server error handler doesn't intercept it
+app.get(
+	[
+		"/login",
+		"/profile",
+		"/register",
+		"/notes",
+		"/notes/:id",
+		"/notes/new",
+		"/notes/:id/update",
+	],
+	(req, res) => res.sendFile(path.join(__dirname, "../public/index.html"))
+);
 
 //Catch 404's
 app.use(notFoundHandler);
