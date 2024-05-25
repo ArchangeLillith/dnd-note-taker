@@ -19,7 +19,7 @@
 		"node",
 		"mysql"
 	],
-	"author": "Cool Hand Luke",
+	"author": "Cool Hand Luke, Aria Walford",
 	"license": "MIT",
 	"dependencies": {
 		"@types/bcrypt": "^5.0.0",

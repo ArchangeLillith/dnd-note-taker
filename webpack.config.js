@@ -1,6 +1,9 @@
 const path = require("path");
 const nodeExternals = require("webpack-node-externals");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 //This tells webpack where and how to do its job, like where to output the ready-toload file into and if there are some custom pieces of code it should be aware of
+
+//As an example, the rules in the client config show what we need to use to load the files types, and for the css specifically we see we can have multiple loaders that all can interact with each other through the building process of webpack
 
 const clientConfig = {
 	//If the enviornment isn't given, we defualt to develop which gives us more verbose errors
@@ -22,6 +25,16 @@ const clientConfig = {
 					configFile: "tsconfig.json",
 				},
 			},
+			//The 'use' runs in opposite order, so whatever is index 0 runs LAST
+			//The importLoaders option tells that loader how many other loaders should be imported before it runs. Here that ensures postcss actually runs before css-loader
+			{
+				test: /\.css$/,
+				use: [
+					"style-loader",
+					{ loader: "css-loader", options: { importLoaders: 1 } },
+					"postcss-loader",
+				],
+			},
 		],
 	},
 	resolve: {
@@ -32,6 +45,7 @@ const clientConfig = {
 		filename: "app.js",
 		path: path.resolve(__dirname, "public/js"),
 	},
+	plugins: [new HtmlWebpackPlugin({ template: "public/index.html" })],
 };
 
 const serverConfig = {
