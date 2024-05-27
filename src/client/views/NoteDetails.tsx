@@ -6,7 +6,6 @@ import noteService from "../services/notes";
 import { GiReturnArrow, GiQuillInk, GiTrashCan } from "react-icons/gi";
 import { Button, Container, Toast } from "../components";
 
-//test
 import ReactDOM from "react-dom";
 
 const modalRoot = document.getElementById("modal-root");
@@ -56,10 +55,12 @@ const NoteDetails = (props: NoteDetailsProps) => {
 	}, [id]);
 
 	const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
-		noteService
-			.destroyNote(id)
-			.then(() => navigate("/notes"))
-			.catch((e) => Toast.error(e.message));
+		if (window.confirm("Are you sure you want to delete this note?")) {
+			noteService
+				.destroyNote(id)
+				.then(() => navigate("/notes"))
+				.catch((e) => Toast.error(e.message));
+		}
 	};
 
 	return (
