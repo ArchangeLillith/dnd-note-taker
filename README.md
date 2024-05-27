@@ -14,4 +14,6 @@ Made with:
 - MySQL
 - Tailwind
 - DaisyUI
+- react-icons
+- React-Toastify
 - PostCSS

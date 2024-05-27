@@ -1,17 +1,19 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { GiHamburger } from "react-icons/gi";
 
-interface NavBarProps {}
+interface NavBarProps {
+	toggleVisible: () => void;
+}
 
-const NavBar = (props: NavBarProps) => {
+const NavBar = ({ toggleVisible }: NavBarProps) => {
 	return (
 		<div>
-			<Link to="/">Home</Link>
-			<Link to="login">Login</Link>
-			<Link to="profile">Profile</Link>
-			<Link to="register">Register</Link>
-			<Link to="notes">Notes</Link>
-			<Link to="notes/new">Add Note</Link>
+			<button
+				onClick={toggleVisible}
+				className="px-1 py-1 mx-2 my-2 btn btn-square btn-ghost"
+			>
+				<GiHamburger size="text-2xl md:text-3xl" />
+			</button>
 		</div>
 	);
 };

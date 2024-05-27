@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
+import dayjs from "dayjs";
 import { Link } from "react-router-dom";
+import { Container, Card, Button, Toast } from "../components";
 import notesService from "../services/notes";
+
 interface NotesProps {}
 
 const Notes = (props: NotesProps) => {
@@ -10,24 +13,31 @@ const Notes = (props: NotesProps) => {
 		notesService
 			.getAllNotes()
 			.then((data) => setNotes(data))
-			.catch((e) => console.log(e));
+			.catch((e) => Toast.error(e.message));
 	}, []);
 
 	return (
-		<div>
-			<h1>Notes Component</h1>
-			<div>
+		<Container className="py-16">
+			<h2 className="mb-4 text-2xl font-bold">Your Notes</h2>
+			<div className="grid grid-cols-1 gap-4 mb-8 md:grid-cols-2">
 				{notes.map((note) => (
-					<div key={note.id}>
-						<h3>{note.first_name}</h3>
-						<p>{note.body.slice(0, 55)}...</p>
-						<Link to={`/notes/${note.id}`}>
-							<button>View Full Note</button>
-						</Link>
-					</div>
+					<Card key={`note-id-${note.id}`}>
+						<div className="card-body">
+							<h2 className="card-title">{note.first_name}</h2>
+							<h3 className="card-subtitle text-grey-500">
+								{dayjs(note.created_at).format("MMMM D, YYYY")}
+							</h3>
+							<p className="h-12 overflow-hidden">{note.body}</p>
+							<div className="justify-end card-actions">
+								<Link to={`/notes/${note.id}`}>
+									<Button color="primary">View Full Note</Button>
+								</Link>
+							</div>
+						</div>
+					</Card>
 				))}
 			</div>
-		</div>
+		</Container>
 	);
 };
 
